@@ -1,10 +1,11 @@
 import { expressMiddleware } from "@apollo/server/express4";
+import dotenv from "dotenv";
 import express from "express";
 import createApolloGraphqlServer from "./graphql";
 async function init() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
-
+  dotenv.config();
   //   middleware
   app.use(express.json());
 

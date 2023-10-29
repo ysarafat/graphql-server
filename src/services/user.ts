@@ -12,8 +12,7 @@ export interface GetUserTokenPayload {
   email: string;
   password: string;
 }
-const JWT_TOKEN =
-  "e9090d647b59621ecf06df51c985d9be78e47e007087d3f5f1ec546ab35b79056985716648ab5dd2d8f64a616ba32d04fbd4f12b09c80337c13b5394bfbfe3ba";
+
 class UserService {
   private static generateHash(password: string, salt: string) {
     return createHmac("sha256", salt).update(password).digest("hex");
@@ -55,7 +54,7 @@ class UserService {
         id,
         email,
       },
-      JWT_TOKEN
+      process.env.JWT_SECRET!
     );
     return token;
   }
