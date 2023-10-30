@@ -17,6 +17,13 @@ class UserService {
   private static generateHash(password: string, salt: string) {
     return createHmac("sha256", salt).update(password).digest("hex");
   }
+  public static getUserById(id: string) {
+    return prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
   public static createUser(payload: CreateUserPayload) {
     const { firstName, lastName, profileImageURl, email, password } = payload;
     const salt = randomBytes(16).toString("hex");
@@ -32,6 +39,7 @@ class UserService {
       },
     });
   }
+
   private static getUserByEmail(email: string) {
     return prisma.user.findUnique({
       where: {
@@ -57,6 +65,9 @@ class UserService {
       process.env.JWT_SECRET!
     );
     return token;
+  }
+  public static decodeJWT(token: string) {
+    return Jwt.verify(token, process.env.JWT_SECRET!);
   }
 }
 
